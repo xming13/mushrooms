@@ -8,7 +8,6 @@ XMing.GameStateManager = new function() {
     var remainingTime;
     var imageObj = {};
 
-    // declare CONSTANTS
     var GAME_STATE_ENUM = {
         INITIAL: "initial",
         START: "start",
@@ -44,7 +43,7 @@ XMing.GameStateManager = new function() {
         this.onResize();
         $('html, body').scrollTop($("#panel-container").offset().top);
 
-        remainingTime = 60;
+        remainingTime = 3;
 
         (function popupRandomShroom() {
             var randomNumber = _.random(1, 4);
@@ -223,6 +222,18 @@ XMing.GameStateManager = new function() {
         var imgPoisonClicked = new Image();
         imgPoisonClicked.src = "images/mushroom-poison-clicked.png";
         imageObj[SHROOM_TYPE.POISON + "-clicked"] = imgPoisonClicked.src;
+
+        var imgPig = new Image();
+        imgPig.src = "pig.png";
+
+        var imgPigShroomCap = new Image();
+        imgPigShroomCap.src = "pig-mushroom-cap.png";
+
+        var imgWildboar = new Image();
+        imgWildboar.src = "images/wildboar.png"
+
+        var imgWildboarShroomCap = new Image();
+        imgWildboarShroomCap.src = "images/wildboar-mushroom-cap.png"
     };
 
     // game status operation
@@ -243,9 +254,9 @@ XMing.GameStateManager = new function() {
     this.endGame = function() {
         gameState = GAME_STATE_ENUM.END;
 
-        var html = "<li><div class='content'><img src='images/mushroom.png' /></div></li>";
+        var html = "<li><div class='content end-mushroom'><img src='images/mushroom.png' class='animated tada' /></div></li>";
         html += "<li><div class='content'><img src='images/mushroom-clicked.png' /></div></li>";
-        html += "<li><div class='content'><img src='images/mushroom-poison.png' /></div></li>";
+        html += "<li><div class='content end-mushroom-poison'><img src='images/mushroom-poison.png' class='animated tada' /></div></li>";
         html += "<li><div class='content'><img src='images/mushroom-poison-clicked.png' /></div></li>";
 
         html += "<li><div class='content'>G</div></li>";
@@ -261,7 +272,7 @@ XMing.GameStateManager = new function() {
         html += "<li><div class='content'><img src='images/mushroom-double.png' /></div></li>";
         html += "<li><div class='content'><img src='images/mushroom-double-clicked-once.png' /></div></li>";
         html += "<li><div class='content'><img src='images/mushroom-double-clicked-twice.png' /></div></li>";
-        html += "<li><div class='content last'><img src='images/mushroom-small.png' class='small' /></div></li>";
+        html += "<li><div class='content last'><img src='images/mushroom-small.png' class='small animated' /></div></li>";
 
         $(".game-grid").html(html);
         $("#timer").hide();
@@ -271,6 +282,27 @@ XMing.GameStateManager = new function() {
         $('html, body').scrollTop($("#panel-container").offset().top);
 
         alert('Congratulations!\nYour score is ' + score + '!\nThanks for playing!');
+
+        var imagePigs = ["images/mushroom.png", "images/pig-mushroom-cap.png", "images/pig.png"];
+        var imageWildboars = ["images/mushroom-poison.png", "images/wildboar-mushroom-cap.png", "images/wildboar.png"];
+
+        var loadNextImage = function(li, array) {
+            var currentImage = $(li).find('img').attr('src');
+            var index = _.indexOf(array, currentImage);
+            index = (index + 1) % array.length;
+            $(li).find('img').attr('src', array[index]);
+        };
+
+        $(".end-mushroom").click(function() {
+            loadNextImage(this, imagePigs);
+        });
+        $(".end-mushroom-poison").click(function() {
+            loadNextImage(this, imageWildboars);
+        });
+        $(".small").click(function() {
+            $(this).toggleClass("rubberBand");
+        });
+
         $(".icon-repeat").click(function() {
             XMing.GameStateManager.startGame();
         });
