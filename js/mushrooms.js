@@ -43,7 +43,7 @@ XMing.GameStateManager = new function() {
         this.onResize();
         $('html, body').scrollTop($("#panel-container").offset().top);
 
-        remainingTime = 3;
+        remainingTime = 60;
 
         (function popupRandomShroom() {
             var randomNumber = _.random(1, 4);
