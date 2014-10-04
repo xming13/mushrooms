@@ -5,6 +5,7 @@ XMing.GameStateManager = new function() {
     var gameState;
     var score = 0;
     var gameTimer;
+    var shroomTimer;
     var remainingTime;
     var imageObj = {};
 
@@ -43,10 +44,19 @@ XMing.GameStateManager = new function() {
         this.onResize();
         $('html, body').scrollTop($("#panel-container").offset().top);
 
-        remainingTime = 60;
+        (function countdown() {
+            remainingTime -= 1.0;
+            $("#timer-value").html(remainingTime);
+
+            if (remainingTime <= 0) {
+                self.endGame();
+            } else {
+                gameTimer = setTimeout(countdown, 1000);
+            }
+        })();
 
         (function popupRandomShroom() {
-            var randomNumber = _.random(1, 4);
+            var randomNumber = _.random(2, 5);
             _.each(_.sample($(".image-holder"), randomNumber), function(imageHolder) {
                 if (!$(imageHolder).data("type")) {
                     var randomType = _.sample(SHROOM_TYPE);
@@ -58,8 +68,7 @@ XMing.GameStateManager = new function() {
 
             _.each($(".image-holder"), function(imageHolder) {
                 var $imageHolder = $(imageHolder);
-                if ($imageHolder.data("type") && !$imageHolder.data("hasStarted") && !$imageHolder.data("hasStopped"))
-                {
+                if ($imageHolder.data("type") && !$imageHolder.data("hasStarted") && !$imageHolder.data("hasStopped")) {
                     var liHeight = $imageHolder.parent().parent("li").height();
                     $imageHolder
                         .css("top", liHeight + "px")
@@ -91,7 +100,7 @@ XMing.GameStateManager = new function() {
             });
 
             if (!self.isGameStateEnd()) {
-                setTimeout(popupRandomShroom, 2000);
+                shroomTimer = setTimeout(popupRandomShroom, 2000);
             }
         })();
 
@@ -159,18 +168,6 @@ XMing.GameStateManager = new function() {
                 }
             }
         });
-
-        (function countdown() {
-            remainingTime -= 1.0;
-            $("#timer-value").html(Math.ceil(remainingTime));
-
-            if (remainingTime <= 0) {
-                clearTimeout(gameTimer);
-                self.endGame();
-            } else {
-                gameTimer = setTimeout(countdown, 1000);
-            }
-        })();
     };
 
     this.onResize = function(event) {
@@ -232,12 +229,20 @@ XMing.GameStateManager = new function() {
     // game status operation
     this.initGame = function() {
         gameState = GAME_STATE_ENUM.INITIAL;
+        var self = this;
         this.preloadImage();
+
+        $(".icon-repeat").click(function() {
+            self.startGame();
+        });
     };
 
     this.startGame = function() {
         gameState = GAME_STATE_ENUM.START;
         score = 0;
+        $("#score-value").html(score);
+        remainingTime = 61;
+        $("#timer-value").html(remainingTime);
         $("#timer").show();
         $("#replay").hide();
 
@@ -246,6 +251,9 @@ XMing.GameStateManager = new function() {
 
     this.endGame = function() {
         gameState = GAME_STATE_ENUM.END;
+
+        clearTimeout(gameTimer);
+        clearTimeout(shroomTimer);
 
         var html = "<li><div class='content end-mushroom'><img src='images/mushroom.png' class='animated tada' /></div></li>";
         html += "<li><div class='content'><img src='images/mushroom-clicked.png' /></div></li>";
@@ -276,6 +284,7 @@ XMing.GameStateManager = new function() {
 
         alert('Congratulations!\nYour score is ' + score + '!\nThanks for playing!');
 
+        // Easter egg
         var imagePigs = ["images/mushroom.png", "images/pig-mushroom-cap.png", "images/pig.png"];
         var imageWildboars = ["images/mushroom-poison.png", "images/wildboar-mushroom-cap.png", "images/wildboar.png"];
 
@@ -294,10 +303,6 @@ XMing.GameStateManager = new function() {
         });
         $(".small").click(function() {
             $(this).toggleClass("rubberBand");
-        });
-
-        $(".icon-repeat").click(function() {
-            XMing.GameStateManager.startGame();
         });
     };
 
