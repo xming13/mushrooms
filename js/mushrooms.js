@@ -56,37 +56,38 @@ XMing.GameStateManager = new function() {
                 }
             });
 
-            _.each(_.filter($(".image-holder"), function(imageHolder) {
-                return $(imageHolder).data("type") && !$(imageHolder).data("hasStarted") && !$(imageHolder).data("hasStopped");
-            }), function(imageHolder) {
+            _.each($(".image-holder"), function(imageHolder) {
                 var $imageHolder = $(imageHolder);
-                var liHeight = $imageHolder.parent().parent("li").height();
-                $imageHolder
-                    .css("top", liHeight + "px")
-                    .data("hasStarted", true)
-                    .animate({
-                        top: "0px"
-                    }, {
-                        duration: 500,
-                        complete: function() {
-                            var $this = $(this);
-                            setTimeout(function() {
-                                if (!$this.data("hasStopped")) {
-                                    $this.animate({
-                                        top: liHeight + "px"
-                                    }, {
-                                        duration: 500,
-                                        complete: function() {
-                                            $this.css("top", liHeight + "px")
-                                                .data("type", "")
-                                                .data("isClicked", "")
-                                                .data("hasStarted", "");
-                                        }
-                                    });
-                                }
-                            }, 1000);
-                        }
-                    });
+                if ($imageHolder.data("type") && !$imageHolder.data("hasStarted") && !$imageHolder.data("hasStopped"))
+                {
+                    var liHeight = $imageHolder.parent().parent("li").height();
+                    $imageHolder
+                        .css("top", liHeight + "px")
+                        .data("hasStarted", true)
+                        .animate({
+                            top: "0px"
+                        }, {
+                            duration: 500,
+                            complete: function() {
+                                var $this = $(this);
+                                setTimeout(function() {
+                                    if (!$this.data("hasStopped")) {
+                                        $this.animate({
+                                            top: liHeight + "px"
+                                        }, {
+                                            duration: 500,
+                                            complete: function() {
+                                                $this.css("top", liHeight + "px")
+                                                    .data("type", "")
+                                                    .data("isClicked", "")
+                                                    .data("hasStarted", "");
+                                            }
+                                        });
+                                    }
+                                }, 1000);
+                            }
+                        });
+                }
             });
 
             if (!self.isGameStateEnd()) {
@@ -162,17 +163,9 @@ XMing.GameStateManager = new function() {
         (function countdown() {
             remainingTime -= 1.0;
             $("#timer-value").html(Math.ceil(remainingTime));
-            $("#timer-value").addClass("animated fadeIn");
 
             if (remainingTime <= 0) {
                 clearTimeout(gameTimer);
-
-                $("#result-content")
-                    .html("Time's up!")
-                    .addClass('animated bounceIn')
-                    .css("color", "rgba(17, 189, 255, 255)");
-                $("#timer-value").removeClass("animated fadeIn");
-
                 self.endGame();
             } else {
                 gameTimer = setTimeout(countdown, 1000);
