@@ -30,17 +30,13 @@ XMing.GameStateManager = new function() {
     this.loadData = function() {
         var self = this;
 
-        var htmlTemplate = "<li>" + "<div class='shroom-holder'>" + "<div class='image-holder'>" + "<img class='new-shroom' src='images/transparent.png' />" + "</div>" + "</div>" + "</li>";
-
-        var htmlArray = [];
-        _.times(16, function(available) {
-            htmlArray.push(htmlTemplate);
-        });
+        var liTemplate = "<li>" + "<div class='shroom-holder'>" + "<div class='image-holder'>" + "<img class='new-shroom' src='images/transparent.png' />" + "</div>" + "</div>" + "</li>";
 
         $(".game-grid").html("");
-        _.each(htmlArray, function(html) {
-            $(".game-grid").append(html);
+        _.times(16, function() {
+            $(".game-grid").append(liTemplate);
         });
+
         this.onResize();
         $('html, body').scrollTop($("#panel-container").offset().top);
 
