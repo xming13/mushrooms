@@ -13,24 +13,28 @@
     <meta name="author" content="xming13" />
     <meta property="og:title" content="Mushrooms" />
     <meta property="og:type" content="website" />
-    <meta property="og:image" content="https://xming13.github.io/collect-mushrooms/images/mushroom.png" />
+    <meta property="og:image" content="https://xming13.github.io/collect-mushrooms/images/mushroom-og.png" />
     <meta property="og:site_name" content="Mushrooms" />
     <link rel="shortcut icon" href="favicon.ico">
-    <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css" />
-    <link rel="stylesheet" type="text/css" href="css/animate.min.css" />
-    <!--<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css" />-->
-    <!--<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" />-->
+    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" />
     <link rel="stylesheet" type="text/css" href="https://xming13.github.io/catch-a-falling-star/css/xming-games.min.css" />
-    <link rel="stylesheet" type="text/css" href="css/mushrooms.css" />
+    <link rel="stylesheet" type="text/css" href="css/mushrooms.min.css" />
     <script>
-        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        (function(i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r;
+            i[r] = i[r] || function() {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date();
+            a = s.createElement(o),
+                    m = s.getElementsByTagName(o)[0];
+            a.async = 1;
+            a.src = g;
+            m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
 
         ga('create', 'UA-53662868-5', 'auto');
         ga('send', 'pageview');
-
     </script>
 </head>
 
@@ -63,8 +67,8 @@
                     Mushrooms
                 </div>
                 <div class="sprite">
-                    <img src="images/iilii.png" height="100" width="100" />
-                    <img src="images/oo0oo.png" height="100" width="100" />
+                    <img src="images/mushroom-correct.png" height="100" width="100" />
+                    <img src="images/mushroom-wrong.png" height="100" width="100" />
                 </div>
                 <div class="button-holder">
                     <a class="btn-play">
@@ -82,8 +86,7 @@
                     <div id="timer">Time left: <span id="timer-value" class="animated fadeIn"></span>
                     </div>
                     <div id="score">
-                        Score: <span id="score-value"></span>
-                        <span class="score-change"></span>
+                        <img src="images/mushroom-small.png">: <span id="score-value">0</span>
                     </div>
                 </div>
                 <div class="gameboard">
@@ -112,12 +115,10 @@
     </footer>
 </div>
 
-<script src="js/jquery.min.js"></script>
-<script src="js/underscore-min.js"></script>
-<!--<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>-->
-<!--<script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min.js"></script>-->
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min.js"></script>
 <script src="https://xming13.github.io/catch-a-falling-star/js/xming-games.min.js"></script>
-<script src="js/mushrooms.js"></script>
+<script src="js/mushrooms.min.js"></script>
 
 <script>
     window.onload = function() {

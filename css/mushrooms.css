@@ -29,8 +29,8 @@ body, html {
 
 /* Main */
 body {
-    background: #ffcf00;
-    color: #333;
+    background: #f57b00;
+    color: #fff;
     padding: 0;
     margin: 0 auto;
     font-family: 'Lato', Calibri, Arial, sans-serif;
@@ -84,12 +84,12 @@ a {
     border-radius: 50%;
     color: transparent;
     margin: 0 2px;
-    border: 4px solid #ff0;
+    border: 4px solid #ffd235;
 }
 
 .container > header nav a:after {
     content: attr(data-info);
-    color: #444;
+    color: #fff;
     position: absolute;
     width: 600%;
     top: 120%;
@@ -104,7 +104,7 @@ a {
 }
 
 .container > header nav a:hover {
-    background: #b2b271;
+    background: #ebaa03;
 }
 
 .container > header nav a:hover:before {
@@ -123,7 +123,7 @@ a {
     font-weight: normal;
     line-height: 2;
     text-align: center;
-    color: #B2B271;
+    color: #ebaa03;
     -webkit-font-smoothing: antialiased;
 }
 
@@ -136,7 +136,7 @@ a {
 }
 
 .main-content {
-    background: #ff4;
+    background: #ffc200;
     -webkit-border-radius: 10px;
     -moz-border-radius: 10px;
     border-radius: 10px;
@@ -162,7 +162,7 @@ a {
     font-size: 21px;
     margin: 0 0 24px;
     letter-spacing: 1px;
-    color: rgba(51, 51, 51, 0.9);
+    color: rgba(255, 255, 255, 0.9);
 }
 
 .sprite img {
@@ -175,9 +175,9 @@ a {
     font-size: 15px;
     font-weight: normal;
     text-align: center;
-    color: #333;
-    background-color: #ffcf00;
-    border: 1px solid #ffdf11;
+    color: #fff;
+    background-color: #ff8c22;
+    border: 1px solid #e68023;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     border-radius: 5px;
@@ -185,9 +185,9 @@ a {
 }
 
 .btn-play:hover {
-    color: #333;
-    background-color: #ffee00;
-    border-color: #ffff11;
+    color: #fff;
+    background-color: #ffad1b;
+    border-color: #ffa300;
     outline: 0px none;
 }
 
@@ -206,12 +206,12 @@ a {
     position: relative;
     width: 40px;
     height: 40px;
-    background: #FFEB00;
+    background: #ffcb7c;
     -webkit-border-radius: 50%;
     -moz-border-radius: 50%;
     border-radius: 50%;
     color: transparent;
-    border: 4px solid #555;
+    border: 4px solid #ff9737;
     cursor: pointer;
 }
 .icon-repeat:before {
@@ -226,7 +226,7 @@ a {
     font-weight: normal;
     line-height: 32px;
     text-align: center;
-    color: #555;
+    color: #ff7406;
     -webkit-font-smoothing: antialiased;
     content: "\f01e";
 }
@@ -243,10 +243,10 @@ a {
     pointer-events: none;
 }
 .icon-repeat:hover {
-    background: #ffd;
+    background: #ff7406;
 }
 .icon-repeat:hover:before {
-    color: #999;
+    color: #ffcb7c;
 }
 .icon-repeat:hover:after {
     opacity: 1;
@@ -255,11 +255,11 @@ a {
 #timer {
     float: left;
     padding: 5px;
-    border: 2px solid #555;
+    border: 2px solid #f30;
     -webkit-border-radius: 10px;
     -moz-border-radius: 10px;
     border-radius: 10px;
-    background: #FFEB00;
+    background: #fff6c5;
     color: black;
 }
 
@@ -278,20 +278,19 @@ a {
 #score {
     float: right;
     padding: 5px;
-    border: 2px solid #555;
+    border: 2px solid #f30;
     -webkit-border-radius: 10px;
     -moz-border-radius: 10px;
     border-radius: 10px;
-    background: #FFEB00;
+    background: #fff6c5;
     color: black;
+    font-weight: bold;
 }
 
-.score-change {
-    position: absolute;
-    top: -10px;
-    font-size: 20px;
-    font-weight: bold;
-    right: 6px;
+#score img {
+    height: 30px;
+    width: 30px;
+    vertical-align: middle;
 }
 
 .gameboard {
@@ -302,14 +301,13 @@ a {
     padding: 0;
     list-style: none;
     position: relative;
-    background: #FFEB00;
+    background: #ffe792;
+    border: 1px solid rgb(179, 45, 45);
 }
 
 .game-grid li {
-    display: table;
     position: relative;
     float: left;
-    overflow: hidden;
     width: 25%;
     height: 100%;
     /* Fallback */
@@ -317,47 +315,71 @@ a {
     width: calc(100% / 4);
     color: #333;
     cursor: pointer;
+    border: 1px solid rgb(179, 45, 45);
 }
-.game-grid li:hover {
-    background: #333;
-    color: #FFEB00;
+
+.game-grid li .image-holder, .shroom-holder {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+
+.game-grid li .image-holder img.new-shroom {
+    display: block;
+    position: absolute;
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+.game-grid li img.popup {
+    height: 30px;
+    width: 30px;
+    display: inline;
+    vertical-align: middle;
+}
+
+.game-grid li .score-popup {
+    font-weight: bold;
+    font-size: 20px;
+    color: #00e01b;
+    position: absolute;
+    left: 25%;
+    width: 50%;
+    background: rgb(183, 255, 173);
+    border: 2px solid;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    padding: 2px;
+}
+
+.game-grid li .score-popup.penalty {
+    color: #ff0000;
+    background: rgb(255, 173, 176);
 }
 
 .game-grid li .content {
-    display: table-cell;
+    height: 100%;
     text-align: center;
     vertical-align: middle;
     font-size: 5vw;
 }
 
-.game-grid li img {
-    display: block;
+.game-grid li .content.last {
+    top: 25%;
+    position: relative;
+    font-size: 0;
+}
+
+.game-grid li .content img {
     width: 100%;
-    cursor: pointer;
-    max-width: 100%;
-    height: 100%;
 }
 
-#result {
-    position: absolute;
-    top: 0;
-    margin: 0 auto;
-    background: rgba(58, 58, 58, 0.8);
-    display: table;
-}
-
-#result-content {
-    display: table-cell;
-    text-align: center;
-    vertical-align: middle;
-    font-size: 9.5vw;
-    text-shadow: 0 0 5px #000; /* horizontal-offset vertical-offset 'blur' colour */
-    -moz-text-shadow: 0 0 5px #000;
-    -webkit-text-shadow: 0 0 5px #000;
-}
-
-.new-shroom {
-    position: absolute;
+.game-grid li .content img.small {
+    width: 50%
 }
 
 /* Desktops and laptops ----------- */
@@ -385,6 +407,25 @@ and (max-device-width : 540px) {
 
     .game-grid li .content {
         font-size: 8vw;
+    }
+
+    .game-grid li .score-popup {
+        font-weight: bold;
+        font-size: 15px;
+        color: #00ff00;
+        position: absolute;
+        left: 15%;
+        width: 70%;
+        z-index: 10;
+    }
+
+    .game-grid li img.popup {
+        height: 18px;
+        width: 18px;
+    }
+
+    .game-grid li .content.last {
+        top: 25%;
     }
 
     #result-content {

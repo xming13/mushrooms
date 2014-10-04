@@ -17,9 +17,9 @@ XMing.GameStateManager = new function() {
     };
 
     var SHROOM_TYPE = {
-        NORMAL: "normal",
+        SINGLE: "single",
         DOUBLE: "double",
-        ENEMY: "enemy"
+        POISON: "poison"
     };
 
     this.init = function() {
@@ -30,9 +30,11 @@ XMing.GameStateManager = new function() {
     this.loadData = function() {
         var self = this;
 
+        var htmlTemplate = "<li>" + "<div class='shroom-holder'>" + "<div class='image-holder'>" + "<img class='new-shroom' src='images/transparent.png' />" + "</div>" + "</div>" + "</li>";
+
         var htmlArray = [];
         _.times(16, function(available) {
-            htmlArray.push("<li><img class='new-shroom' src='images/transparent.png' /></li>");
+            htmlArray.push(htmlTemplate);
         });
 
         $(".game-grid").html("");
@@ -42,23 +44,25 @@ XMing.GameStateManager = new function() {
         this.onResize();
         $('html, body').scrollTop($("#panel-container").offset().top);
 
-        remainingTime = 60.5;
+        remainingTime = 60;
 
         (function popupRandomShroom() {
-            var randomNumber = _.random(1, 3);
-            _.each(_.sample($(".new-shroom"), randomNumber), function(shroom) {
-                if (!$(shroom).data("type")) {
-                    $(shroom).data("type", "single")
-                        .attr("src", _.sample(imageObj));
+            var randomNumber = _.random(1, 4);
+            _.each(_.sample($(".image-holder"), randomNumber), function(imageHolder) {
+                if (!$(imageHolder).data("type")) {
+                    var randomType = _.sample(SHROOM_TYPE);
+                    $(imageHolder).data("type", randomType);
+                    $(imageHolder).find('img')
+                        .attr("src", imageObj[randomType]);
                 }
             });
 
-            _.each(_.filter($(".new-shroom"), function(shroom) {
-                return $(shroom).data("type") && !$(shroom).data("hasStarted") && !$(shroom).data("hasStopped");
-            }), function(newShroom) {
-                var $newShroom = $(newShroom);
-                var liHeight = $newShroom.parent("li").height();
-                $newShroom
+            _.each(_.filter($(".image-holder"), function(imageHolder) {
+                return $(imageHolder).data("type") && !$(imageHolder).data("hasStarted") && !$(imageHolder).data("hasStopped");
+            }), function(imageHolder) {
+                var $imageHolder = $(imageHolder);
+                var liHeight = $imageHolder.parent().parent("li").height();
+                $imageHolder
                     .css("top", liHeight + "px")
                     .data("hasStarted", true)
                     .animate({
@@ -66,16 +70,17 @@ XMing.GameStateManager = new function() {
                     }, {
                         duration: 500,
                         complete: function() {
-                            var that = $(this);
+                            var $this = $(this);
                             setTimeout(function() {
-                                if (!that.data("hasStopped")) {
-                                    that.animate({
+                                if (!$this.data("hasStopped")) {
+                                    $this.animate({
                                         top: liHeight + "px"
                                     }, {
                                         duration: 500,
                                         complete: function() {
-                                            that.css("top", liHeight + "px");
-                                            that.data("type", "")
+                                            $this.css("top", liHeight + "px")
+                                                .data("type", "")
+                                                .data("isClicked", "")
                                                 .data("hasStarted", "");
                                         }
                                     });
@@ -90,31 +95,75 @@ XMing.GameStateManager = new function() {
             }
         })();
 
-        $(".new-shroom").click(function() {
-            if ($(this).data("type")) {
-                var that = $(this);
-                var liHeight = $(this).parent("li").height();
+        $(".image-holder").click(function() {
+            var $this = $(this);
 
-                $(this).attr("src", "images/white.png")
-                    .data("hasStopped", true)
-                    .stop();
+            if ($this.data("type") && !$this.data("hasStopped")) {
 
-                score++;
+                var thisType = $this.data("type");
 
-                setTimeout(function() {
-                    that.css("top", liHeight + "px");
-                    that.data("type", "")
-                        .data("hasStarted", "")
-                        .data("hasStopped", "");
-                }, 500);
+                var img = $this.find('img');
+                var $scorePopup;
+
+                var isClickedOnce = false;
+
+                switch (thisType) {
+                    case SHROOM_TYPE.SINGLE:
+                        img.attr("src", imageObj[thisType + "-clicked"]);
+                        score++;
+                        $scorePopup = $("<div class='score-popup animated bounceIn'>+1</div>");
+                        break;
+
+                    case SHROOM_TYPE.DOUBLE:
+                        if ($this.data("isClicked")) {
+                            img.attr("src", imageObj[thisType + "-clicked-twice"]);
+                            score += 2;
+                            $scorePopup = $("<div class='score-popup animated bounceIn'>+2</div>");
+                        } else {
+                            $this.data("isClicked", true);
+                            img.attr("src", imageObj[thisType + "-clicked-once"]);
+                            isClickedOnce = true;
+                        }
+                        break;
+                    case SHROOM_TYPE.POISON:
+                        img.attr("src", imageObj[thisType + "-clicked"]);
+                        score--;
+                        $scorePopup = $("<div class='score-popup penalty animated bounceIn'>-1</div>");
+                        break;
+                }
+
+                if (!isClickedOnce) {
+                    $("#score-value").html(score);
+
+                    $this.data("hasStopped", true)
+                        .stop();
+
+                    var $parentLi = $this.parent().parent("li");
+                    var $imagePopup = $("<img src='images/mushroom-small.png' class='popup' />");
+                    $scorePopup.prepend($imagePopup);
+                    $parentLi.prepend($scorePopup);
+                    $scorePopup.css('top', (this.offsetTop - $imagePopup.height()) + "px");
+
+                    $(".score-popup").one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
+                        $scorePopup.remove();
+                    });
+
+                    setTimeout(function() {
+                        $scorePopup.remove();
+                        $this.css("top", $parentLi.height() + "px")
+                            .data("type", "")
+                            .data("isClicked", "")
+                            .data("hasStarted", "")
+                            .data("hasStopped", "");
+                    }, 500);
+                }
             }
         });
 
         (function countdown() {
-            remainingTime -= 0.5;
+            remainingTime -= 1.0;
             $("#timer-value").html(Math.ceil(remainingTime));
             $("#timer-value").addClass("animated fadeIn");
-            $("#score-value").html(score);
 
             if (remainingTime <= 0) {
                 clearTimeout(gameTimer);
@@ -127,7 +176,7 @@ XMing.GameStateManager = new function() {
 
                 self.endGame();
             } else {
-                gameTimer = setTimeout(countdown, 500);
+                gameTimer = setTimeout(countdown, 1000);
             }
         })();
     };
@@ -142,19 +191,44 @@ XMing.GameStateManager = new function() {
 
         _.each(lis, function(li) {
             $(li).height(maxWidth)
+            $(li).find('.content:not(.last)').css('line-height', maxWidth + "px");
         });
+    };
+
+    this.preloadImage = function() {
+        var imgSingle = new Image();
+        imgSingle.src = "images/mushroom.png";
+        imageObj[SHROOM_TYPE.SINGLE] = imgSingle.src;
+
+        var imgSingleClicked = new Image();
+        imgSingleClicked.src = "images/mushroom-clicked.png"
+        imageObj[SHROOM_TYPE.SINGLE + "-clicked"] = imgSingleClicked.src;
+
+        var imgDouble = new Image();
+        imgDouble.src = "images/mushroom-double.png";
+        imageObj[SHROOM_TYPE.DOUBLE] = imgDouble.src;
+
+        var imgDoubleClickedOnce = new Image();
+        imgDoubleClickedOnce.src = "images/mushroom-double-clicked-once.png"
+        imageObj[SHROOM_TYPE.DOUBLE + "-clicked-once"] = imgDoubleClickedOnce.src;
+
+        var imgDoubleClickedTwice = new Image();
+        imgDoubleClickedTwice.src = "images/mushroom-double-clicked-twice.png"
+        imageObj[SHROOM_TYPE.DOUBLE + "-clicked-twice"] = imgDoubleClickedTwice.src;
+
+        var imgPoison = new Image();
+        imgPoison.src = "images/mushroom-poison.png";
+        imageObj[SHROOM_TYPE.POISON] = imgPoison.src;
+
+        var imgPoisonClicked = new Image();
+        imgPoisonClicked.src = "images/mushroom-poison-clicked.png";
+        imageObj[SHROOM_TYPE.POISON + "-clicked"] = imgPoisonClicked.src;
     };
 
     // game status operation
     this.initGame = function() {
         gameState = GAME_STATE_ENUM.INITIAL;
-        var img = new Image();
-        img.src = "images/red.png";
-        imageObj["red"] = img.src;
-        img.src = "images/green.png";
-        imageObj["green"] = img.src;
-        img.src = "images/blue.png";
-        imageObj["blue"] = img.src;
+        this.preloadImage();
     };
 
     this.startGame = function() {
@@ -169,10 +243,10 @@ XMing.GameStateManager = new function() {
     this.endGame = function() {
         gameState = GAME_STATE_ENUM.END;
 
-        var html = "<li><div class='content'>#</div></li>";
-        html += "<li><div class='content'>#</div></li>";
-        html += "<li><div class='content'>#</div></li>";
-        html += "<li><div class='content'>#</div></li>";
+        var html = "<li><div class='content'><img src='images/mushroom.png' /></div></li>";
+        html += "<li><div class='content'><img src='images/mushroom-clicked.png' /></div></li>";
+        html += "<li><div class='content'><img src='images/mushroom-poison.png' /></div></li>";
+        html += "<li><div class='content'><img src='images/mushroom-poison-clicked.png' /></div></li>";
 
         html += "<li><div class='content'>G</div></li>";
         html += "<li><div class='content'>A</div></li>";
@@ -184,10 +258,10 @@ XMing.GameStateManager = new function() {
         html += "<li><div class='content'>E</div></li>";
         html += "<li><div class='content'>R</div></li>";
 
-        html += "<li><div class='content'>#</div></li>";
-        html += "<li><div class='content'>#</div></li>";
-        html += "<li><div class='content'>#</div></li>";
-        html += "<li><div class='content'>#</div></li>";
+        html += "<li><div class='content'><img src='images/mushroom-double.png' /></div></li>";
+        html += "<li><div class='content'><img src='images/mushroom-double-clicked-once.png' /></div></li>";
+        html += "<li><div class='content'><img src='images/mushroom-double-clicked-twice.png' /></div></li>";
+        html += "<li><div class='content last'><img src='images/mushroom-small.png' class='small' /></div></li>";
 
         $(".game-grid").html(html);
         $("#timer").hide();
@@ -196,7 +270,7 @@ XMing.GameStateManager = new function() {
         this.onResize();
         $('html, body').scrollTop($("#panel-container").offset().top);
 
-        alert('Congratulations!\rYour score is ' + score + '!\rThanks for playing!');
+        alert('Congratulations!\nYour score is ' + score + '!\nThanks for playing!');
         $(".icon-repeat").click(function() {
             XMing.GameStateManager.startGame();
         });
