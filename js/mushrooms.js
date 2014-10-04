@@ -278,7 +278,10 @@ XMing.GameStateManager = new function() {
         this.onResize();
         $('html, body').scrollTop($("#panel-container").offset().top);
 
-        alert('Congratulations!\nYour score is ' + score + '!\nThanks for playing!');
+        swal({ title: "Congratulations!",
+            text: "You have collected " + score + " mushrooms! :D",
+            imageUrl: "images/mushroom-small.png"
+        });
 
         // Easter egg
         var imagePigs = ["images/mushroom.png", "images/pig-mushroom-cap.png", "images/pig.png"];
