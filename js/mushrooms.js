@@ -224,10 +224,10 @@ XMing.GameStateManager = new function() {
         imageObj[SHROOM_TYPE.POISON + "-clicked"] = imgPoisonClicked.src;
 
         var imgPig = new Image();
-        imgPig.src = "pig.png";
+        imgPig.src = "images/pig.png";
 
         var imgPigShroomCap = new Image();
-        imgPigShroomCap.src = "pig-mushroom-cap.png";
+        imgPigShroomCap.src = "images/pig-mushroom-cap.png";
 
         var imgWildboar = new Image();
         imgWildboar.src = "images/wildboar.png"

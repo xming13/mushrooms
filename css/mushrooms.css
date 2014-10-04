@@ -6,6 +6,7 @@
     box-sizing:border-box;
 }
 
+/* Clearfix hack by Nicolas Gallagher: http://nicolasgallagher.com/micro-clearfix-hack/ */
 .clearfix:before,.clearfix:after {
     content:" ";
     display:table;
@@ -98,6 +99,10 @@ a {
 
 .container > header nav a:hover:before {
     color:#fff;
+}
+
+.container > header nav a:hover:after {
+    opacity:1;
 }
 
 .icon-home:before,.icon-github:before {
@@ -241,6 +246,10 @@ a {
     color:#ffcb7c;
 }
 
+.icon-repeat:hover:after {
+    opacity:1;
+}
+
 #timer {
     float:left;
     border:2px solid #f30;
@@ -305,7 +314,8 @@ a {
     border:1px solid #b32d2d;
 }
 
-.game-grid li .image-holder,.shroom-holder {
+.game-grid li .image-holder,
+.game-grid li .shroom-holder {
     position:relative;
     height:100%;
     width:100%;
@@ -369,19 +379,16 @@ a {
     width:50%;
 }
 
-.end-mushroom img,.end-mushroom-poison img {
+.end-mushroom img,
+.end-mushroom-poison img {
     -moz-animation-iteration-count:infinite;
     -webkit-animation-iteration-count:infinite;
     animation-iteration-count:infinite;
 }
 
-.container > header nav a:hover:after,.icon-repeat:hover:after {
-    opacity:1;
-}
-
 @media only screen
-and min-device-width 320px
-and max-device-width 540px{
+and (min-device-width: 320px)
+and (max-device-width: 540px) {
     .container {
         width:90%;
     }
