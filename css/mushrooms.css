@@ -361,10 +361,12 @@ a {
 }
 
 .game-grid li .content {
+    position: relative;
     height:100%;
     text-align:center;
     vertical-align:middle;
     font-size:5vw;
+    z-index: 1;
 }
 
 .game-grid li .content.last {
