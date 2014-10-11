@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>
         Mushrooms
     </title>
@@ -106,6 +106,7 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min.js"></script>
 <script src="https://xming13.github.io/games/js/xming-games.min.js"></script>
 <script src="js/sweet-alert.min.js"></script>
+<script src="js/fastclick.min.js"></script>
 <script src="js/mushrooms.min.js"></script>
 
 <script>
@@ -123,27 +124,9 @@
         }
     }
 
-    (function($) {
-        $.fn.nodoubletapzoom = function() {
-            $(this).bind('touchstart', function preventZoom(e){
-                var t2 = e.timeStamp;
-                var t1 = $(this).data('lastTouch') || t2;
-                var dt = t2 - t1;
-                var fingers = e.originalEvent.touches.length;
-                $(this).data('lastTouch', t2);
-                if (!dt || dt > 500 || fingers > 1){
-                    return; // not double-tap
-                }
-                e.preventDefault(); // double tap - prevent the zoom
-                // also synthesize click events we just swallowed up
-                $(e.target).trigger('click');
-            });
-        };
-    })(jQuery);
-
     addLoadEvent(function() {
-        $("body").nodoubletapzoom();
-        
+        FastClick.attach(document.body);
+
         XMing.GameStateManager.init();
 
         $(".btn-play").click(function() {
