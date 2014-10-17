@@ -105,7 +105,9 @@ a {
     opacity:1;
 }
 
-.icon-home:before,.icon-github:before {
+.icon-home:before,
+.icon-github:before,
+.icon-games:before {
     font-family:fontawesome;
     position:absolute;
     top:0;
@@ -126,6 +128,10 @@ a {
 
 .icon-github:before {
     content:"\f113";
+}
+
+.icon-games:before {
+    content:"\f11b";
 }
 
 .main-content {
