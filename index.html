@@ -128,7 +128,7 @@
     }
 
     addLoadEvent(function() {
-        FastClick.attach(document.body);
+        FastClick.attach(document.body, { tapDelay: 100 });
 
         XMing.GameStateManager.init();
 
