@@ -352,13 +352,14 @@ a {
     color:#00e01b;
     position:absolute;
     left:25%;
-    width:50%;
+    width:55%;
     background:#b7ffad;
     border:2px solid;
     -webkit-border-radius:5px;
     -moz-border-radius:5px;
     border-radius:5px;
     padding:2px;
+    z-index: 2;
 }
 
 .game-grid li .score-popup.penalty {
