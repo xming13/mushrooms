@@ -300,7 +300,36 @@ XMing.GameStateManager = new function() {
         swal({
             title: "Congratulations!",
             text: "You have collected " + score + " mushrooms! :D",
-            imageUrl: "images/mushroom-small.png"
+            imageUrl: "images/mushroom-small.png",
+            closeOnConfirm: false
+        }, function() {
+            swal({
+                title: "Thanks for playing!!!",
+                imageUrl: "images/love.png",
+                type: "input",
+                text: "Write your name here! It will appear in the leaderboard!",
+                closeOnConfirm: false
+            }, function(playerName) {
+                if (playerName === "") {
+                    swal.showInputError("You need to write something! A nickname is fine too!");
+                    return false;
+                }
+
+                $.ajax({
+                    method: "POST",
+                    url: 'http://weiseng.redairship.com/leaderboard/api/1/highscore.json',
+                    contentType: "application/json",
+                    data: JSON.stringify({
+                        game_id: 3,
+                        username: playerName,
+                        score: score
+                    })
+                }).success(function(data) {
+                    swal("Congratulations!", "You are currently ranked " + data.rank_text + "!", "success");
+                }).fail(function() {
+                    swal("Oops...", "Something went wrong!", "error");
+                });
+            });
         });
 
         // Easter egg
@@ -335,13 +364,14 @@ XMing.GameStateManager = new function() {
             var numDummyData = 10 - data.length;
             for (var i = 0; i < numDummyData; i++) {
                 data.push({
-                    username: '----------'
+                    username: '----------',
+                    score: 0
                 });
             }
 
             _.each(data, function(highscore, index) {
                 setTimeout(function() {
-                    $(".highscore-list").append('<li class="animated slideInUp">' + highscore.username + '</li>');
+                    $(".highscore-list").append('<li class="animated slideInUp">' + (index + 1) + ': ' + highscore.username + ' - ' + highscore.score + '</li>');
                 }, index * 200);
             });
         }).fail(function() {
