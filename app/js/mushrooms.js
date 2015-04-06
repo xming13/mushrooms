@@ -33,7 +33,7 @@ XMing.GameStateManager = new function() {
         });
 
         this.onResize();
-        $('html, body').scrollTop($("#panel-container").offset().top);
+        $('html, body').scrollTop($(".panel-container").offset().top);
 
         (function countdown() {
             remainingTime -= 1.0;
@@ -230,13 +230,23 @@ XMing.GameStateManager = new function() {
         this.preloadImage();
 
         $(".btn-play").click(function() {
-            $("#panel-main").hide();
-            $("#panel-game").show();
+            $(".panel-main").hide();
+            $(".panel-game").show();
             $('html, body').animate({
-                scrollTop: $("#panel-container").offset().top
+                scrollTop: $(".panel-container").offset().top
             }, 'fast');
 
             self.startGame();
+        });
+
+        $(".btn-leaderboard").click(function() {
+            self.showLeaderboard();
+        });
+
+        $(".icon-back").click(function() {
+            $(".panel-game").hide();
+            $(".panel-leaderboard").hide();
+            $(".panel-main").show();
         });
 
         $(".icon-repeat").click(function() {
@@ -250,7 +260,7 @@ XMing.GameStateManager = new function() {
         remainingTime = 61;
         $("#timer-value").html(remainingTime);
         $("#timer").show();
-        $("#replay").hide();
+        $(".icon-wrapper").hide();
 
         this.setupGameNode();
     };
@@ -282,10 +292,10 @@ XMing.GameStateManager = new function() {
 
         $(".game-grid").html(html);
         $("#timer").hide();
-        $("#replay").show();
+        $(".icon-wrapper").show();
         $("#score-value").html(score);
         this.onResize();
-        $('html, body').scrollTop($("#panel-container").offset().top);
+        $('html, body').scrollTop($(".panel-container").offset().top);
 
         swal({
             title: "Congratulations!",
@@ -312,6 +322,30 @@ XMing.GameStateManager = new function() {
         });
         $(".small").click(function() {
             $(this).toggleClass("rubberBand");
+        });
+    };
+    this.showLeaderboard = function() {
+        $(".panel-main").hide();
+        $(".panel-leaderboard").show();
+        $(".icon-back").show();
+
+        $(".highscore-list").html("");
+
+        $.get("http://weiseng.redairship.com/leaderboard/api/1/highscore.json?game_id=3", function(data) {
+            var numDummyData = 10 - data.length;
+            for (var i = 0; i < numDummyData; i++) {
+                data.push({
+                    username: '----------'
+                });
+            }
+
+            _.each(data, function(highscore, index) {
+                setTimeout(function() {
+                    $(".highscore-list").append('<li class="animated slideInUp">' + highscore.username + '</li>');
+                }, index * 200);
+            });
+        }).fail(function() {
+            swal("Oops...", "Something went wrong!", "error");
         });
     };
 

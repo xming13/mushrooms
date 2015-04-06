@@ -168,8 +168,15 @@ a {
     margin:30px 0;
 }
 
-.btn-play {
+.button-holder {
+    margin-bottom: 5px;
+}
+
+.btn-play,
+.btn-leaderboard {
     display:inline-block;
+    padding: 10px 0;
+    width: 174px;
     font-size:15px;
     font-weight:400;
     text-align:center;
@@ -180,27 +187,29 @@ a {
     -moz-border-radius:5px;
     border-radius:5px;
     cursor:pointer;
-    padding:10px 70px;
 }
 
-.btn-play:hover {
+.btn-play:hover,
+.btn-leaderboard:hover {
     color:#fff;
     background-color:#ffad1b;
     outline:0 none;
     border-color:#ffa300;
 }
 
-.panel-game {
+.panel-game,
+.panel-leaderboard {
     position:relative;
     width:60%;
     margin:0 auto;
 }
 
-#replay {
-    float:left;
+.scoreboard {
+    height: 35px;
+    margin-bottom: 15px;
 }
 
-.icon-repeat {
+.icon-circle {
     display:block;
     float:left;
     position:relative;
@@ -215,7 +224,7 @@ a {
     cursor:pointer;
 }
 
-.icon-repeat:before {
+.icon-circle:before {
     font-family:fontawesome;
     position:absolute;
     top:0;
@@ -229,31 +238,42 @@ a {
     text-align:center;
     color:#ff7406;
     -webkit-font-smoothing:antialiased;
+}
+
+.icon-repeat:before {
     content:"\f01e";
 }
-
-.icon-repeat:after {
-    content:attr(data-info);
-    color:#444;
-    position:absolute;
-    width:90px;
-    top:5px;
-    text-align:right;
-    left:25px;
-    opacity:0;
-    pointer-events:none;
+.icon-back:before {
+    content: "\f053";
 }
 
-.icon-repeat:hover {
+.icon-circle:after {
+    content: attr(data-info);
+    color: #CA5400;
+    font-weight: bold;
+    position: absolute;
+    width: 95px;
+    top: -28px;
+    text-align: left;
+    left: 0;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.icon-circle:hover {
     background:#ff7406;
 }
 
-.icon-repeat:hover:before {
+.icon-circle:hover:before {
     color:#ffcb7c;
 }
 
-.icon-repeat:hover:after {
+.icon-circle:hover:after {
     opacity:1;
+}
+
+.icon-repeat {
+    margin-left: 10px;
 }
 
 #timer {
@@ -296,6 +316,11 @@ a {
     height:30px;
     width:30px;
     vertical-align:middle;
+}
+
+.heading {
+    color: #FF5700;
+    font-size: 30px;
 }
 
 .gameboard {
@@ -397,6 +422,22 @@ a {
     animation-iteration-count:infinite;
 }
 
+.highscore-list {
+    margin: 0;
+    padding: 0;
+    background: #FFEB52;
+}
+
+.highscore-list li {
+    height: 40px;
+    border: 2px solid #D87300;
+    background: #FFEA7E;
+    color: #D54100;
+    font-size: 20px;
+    line-height: 40px;
+    list-style: none;
+}
+
 @media only screen
 and (min-device-width: 320px)
 and (max-device-width: 540px) {
@@ -435,5 +476,9 @@ and (max-device-width: 540px) {
 
     .game-grid li .content.last {
         top:25%;
+    }
+
+    .icon-back:after {
+        content: '';
     }
 }
