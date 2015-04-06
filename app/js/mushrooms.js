@@ -22,12 +22,7 @@ XMing.GameStateManager = new function() {
         POISON: "poison"
     };
 
-    this.init = function() {
-        window.addEventListener("resize", this.onResize.bind(this), false);
-        this.initGame();
-    };
-
-    this.loadData = function() {
+    this.setupGameNode = function() {
         var self = this;
 
         var liTemplate = "<li>" + "<div class='shroom-holder'>" + "<div class='image-holder'>" + "<img class='new-shroom' src='images/transparent.png' />" + "</div>" + "</div>" + "</li>";
@@ -166,20 +161,6 @@ XMing.GameStateManager = new function() {
         });
     };
 
-    this.onResize = function(event) {
-        var lis = $(".game-grid").children("li");
-
-        var liMaxWidth = _.max(lis, function(li) {
-            return $(li).width();
-        });
-        var maxWidth = $(liMaxWidth).width();
-
-        _.each(lis, function(li) {
-            $(li).height(maxWidth)
-            $(li).find('.content:not(.last)').css('line-height', maxWidth + "px");
-        });
-    };
-
     this.preloadImage = function() {
         var imgSingle = new Image();
         imgSingle.src = "images/mushroom.png";
@@ -221,18 +202,47 @@ XMing.GameStateManager = new function() {
         var imgWildboarShroomCap = new Image();
         imgWildboarShroomCap.src = "images/wildboar-mushroom-cap.png"
     };
+    this.onResize = function(event) {
+        var lis = $(".game-grid").children("li");
 
-    // game status operation
+        var liMaxWidth = _.max(lis, function(li) {
+            return $(li).width();
+        });
+        var maxWidth = $(liMaxWidth).width();
+
+        _.each(lis, function(li) {
+            $(li).height(maxWidth)
+            $(li).find('.content:not(.last)').css('line-height', maxWidth + "px");
+        });
+    };
+
+    // Game status operation
     this.initGame = function() {
-        gameState = GAME_STATE_ENUM.INITIAL;
         var self = this;
+        gameState = GAME_STATE_ENUM.INITIAL;
+
+        FastClick.attach(document.body, {
+            tapDelay: 100
+        });
+
+        window.addEventListener("resize", this.onResize.bind(this), false);
+
         this.preloadImage();
+
+        $(".btn-play").click(function() {
+            $("#panel-main").hide();
+            $("#panel-game").show();
+            $('html, body').animate({
+                scrollTop: $("#panel-container").offset().top
+            }, 'fast');
+
+            self.startGame();
+        });
 
         $(".icon-repeat").click(function() {
             self.startGame();
         });
     };
-
     this.startGame = function() {
         gameState = GAME_STATE_ENUM.START;
         score = 0;
@@ -242,9 +252,8 @@ XMing.GameStateManager = new function() {
         $("#timer").show();
         $("#replay").hide();
 
-        this.loadData();
+        this.setupGameNode();
     };
-
     this.endGame = function() {
         gameState = GAME_STATE_ENUM.END;
 
@@ -306,15 +315,13 @@ XMing.GameStateManager = new function() {
         });
     };
 
-    // check game state
+    // Check game state
     this.isGameStateInitial = function() {
         return gameState == GAME_STATE_ENUM.INITIAL;
     };
-
     this.isGameStateStart = function() {
         return gameState == GAME_STATE_ENUM.START;
     };
-
     this.isGameStateEnd = function() {
         return gameState == GAME_STATE_ENUM.END;
     };
