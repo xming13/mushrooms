@@ -278,7 +278,8 @@ XMing.GameStateManager = new function() {
         this.onResize();
         $('html, body').scrollTop($("#panel-container").offset().top);
 
-        swal({ title: "Congratulations!",
+        swal({
+            title: "Congratulations!",
             text: "You have collected " + score + " mushrooms! :D",
             imageUrl: "images/mushroom-small.png"
         });
