@@ -310,25 +310,25 @@ XMing.GameStateManager = new function() {
                 text: "Write your name here! It will appear in the leaderboard!",
                 closeOnConfirm: false
             }, function(playerName) {
-                if (playerName === "") {
+                if (playerName == "") {
                     swal.showInputError("You need to write something! A nickname is fine too!");
                     return false;
+                } else {
+                    $.ajax({
+                        method: "POST",
+                        url: 'http://weiseng.redairship.com/leaderboard/api/1/highscore.json',
+                        contentType: "application/json",
+                        data: JSON.stringify({
+                            game_id: 3,
+                            username: playerName,
+                            score: score
+                        })
+                    }).success(function(data) {
+                        swal("Congratulations!", "You are currently ranked " + data.rank_text + "!", "success");
+                    }).fail(function() {
+                        swal("Oops...", "Something went wrong!", "error");
+                    });
                 }
-
-                $.ajax({
-                    method: "POST",
-                    url: 'http://weiseng.redairship.com/leaderboard/api/1/highscore.json',
-                    contentType: "application/json",
-                    data: JSON.stringify({
-                        game_id: 3,
-                        username: playerName,
-                        score: score
-                    })
-                }).success(function(data) {
-                    swal("Congratulations!", "You are currently ranked " + data.rank_text + "!", "success");
-                }).fail(function() {
-                    swal("Oops...", "Something went wrong!", "error");
-                });
             });
         });
 

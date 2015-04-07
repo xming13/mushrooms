@@ -273,7 +273,7 @@ a {
 }
 
 .icon-repeat {
-    margin-left: 10px;
+    margin-left: 20px;
 }
 
 #timer {
@@ -420,6 +420,10 @@ a {
     -moz-animation-iteration-count:infinite;
     -webkit-animation-iteration-count:infinite;
     animation-iteration-count:infinite;
+}
+
+.icon-back-holder .icon-back {
+    position: absolute;
 }
 
 .highscore-list {
