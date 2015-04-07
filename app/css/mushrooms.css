@@ -422,7 +422,7 @@ a {
     animation-iteration-count:infinite;
 }
 
-.icon-back-holder .icon-back {
+.icon-back-holder {
     position: absolute;
 }
 
