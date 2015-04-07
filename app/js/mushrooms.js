@@ -298,7 +298,7 @@ XMing.GameStateManager = new function() {
         $('html, body').scrollTop($(".panel-container").offset().top);
 
         swal({
-            title: "Congratulations!",
+            title: "Well Done!",
             text: "You have collected " + score + " mushrooms! :D",
             imageUrl: "images/mushroom-small.png",
             closeOnConfirm: false
@@ -390,3 +390,7 @@ XMing.GameStateManager = new function() {
         return gameState == GAME_STATE_ENUM.END;
     };
 };
+
+$(function() {
+    XMing.GameStateManager.initGame();
+});

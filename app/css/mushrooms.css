@@ -445,7 +445,8 @@ and (max-device-width: 540px) {
         width:90%;
     }
 
-    .panel-game {
+    .panel-game,
+    .panel-leaderboard {
         width:100%;
     }
 
