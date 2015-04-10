@@ -3,19 +3,20 @@ var XMing = XMing || {};
 XMing.GameStateManager = new function() {
 
     var gameState;
+    var userData;
     var score = 0;
     var gameTimer;
     var shroomTimer;
     var remainingTime;
     var imageObj = {};
 
+    var VERSION_NUMBER = 1;
     var GAME_STATE_ENUM = {
         INITIAL: "initial",
         START: "start",
         PAUSE: "pause",
         END: "end"
     };
-
     var SHROOM_TYPE = {
         SINGLE: "single",
         DOUBLE: "double",
@@ -205,13 +206,26 @@ XMing.GameStateManager = new function() {
         imgPigShroomCap.src = "images/pig-mushroom-cap.png";
 
         var imgWildboar = new Image();
-        imgWildboar.src = "images/wildboar.png"
+        imgWildboar.src = "images/wildboar.png";
 
         var imgWildboarShroomCap = new Image();
-        imgWildboarShroomCap.src = "images/wildboar-mushroom-cap.png"
+        imgWildboarShroomCap.src = "images/wildboar-mushroom-cap.png";
+
+        var imgOrangeEgg = new Image();
+        imgOrangeEgg.src = "images/orange-egg.png";
+
+        var imgBlueEgg = new Image();
+        imgBlueEgg.src = "images/blue-egg.png";
+
+        var imgNinjaEgg = new Image();
+        imgNinjaEgg.src = "images/ninja-egg.png";
     };
-    this.onResize = function(event) {
+    this.onResize = function() {
         var lis = $(".game-grid").children("li");
+
+        if (lis.length == 0) {
+            return;
+        }
 
         var liMaxWidth = _.max(lis, function(li) {
             return $(li).width();
@@ -237,6 +251,12 @@ XMing.GameStateManager = new function() {
 
         this.preloadImage();
 
+        userData = this.loadData();
+
+        swal.setDefaults({
+            confirmButtonColor: '#FD9E3D'
+        });
+
         $(".btn-play").click(function() {
             $(".panel-main").hide();
             $(".panel-game").show();
@@ -260,6 +280,8 @@ XMing.GameStateManager = new function() {
         $(".icon-repeat").click(function() {
             self.startGame();
         });
+
+        this.checkPlayedEasterEgg();
     };
     this.startGame = function() {
         gameState = GAME_STATE_ENUM.START;
@@ -270,9 +292,15 @@ XMing.GameStateManager = new function() {
         $("#timer").show();
         $(".icon-wrapper").hide();
 
+        if (!userData.played.mushrooms) {
+            userData.played.mushrooms = true;
+            this.saveData(userData);
+        }
+
         this.setupGameNode();
     };
     this.endGame = function() {
+        var self = this;
         gameState = GAME_STATE_ENUM.END;
 
         clearTimeout(gameTimer);
@@ -344,11 +372,34 @@ XMing.GameStateManager = new function() {
         var imagePigs = ["images/mushroom.png", "images/pig-mushroom-cap.png", "images/pig.png"];
         var imageWildboars = ["images/mushroom-poison.png", "images/wildboar-mushroom-cap.png", "images/wildboar.png"];
 
+        var showPig = false;
+        var showWildboar = false;
+
         var loadNextImage = function(li, array) {
             var currentImage = $(li).find('img').attr('src');
             var index = _.indexOf(array, currentImage);
             index = (index + 1) % array.length;
             $(li).find('img').attr('src', array[index]);
+
+            if (!userData.easterEgg.mushrooms) {
+                if (index === 2) {
+                    if (array[0] === imagePigs[0]) {
+                        showPig = true;
+                    } else if (array[0] === imageWildboars[0]) {
+                        showWildboar = true;
+                    }
+
+                    if (showPig && showWildboar) {
+                        userData.easterEgg.mushrooms = true;
+                        self.saveData(userData);
+                        swal({
+                            title: 'Congratulations!',
+                            text: 'You have found the Orange Egg!',
+                            imageUrl: 'images/orange-egg.png'
+                        });
+                    }
+                }
+            }
         };
 
         $(".end-mushroom").click(function() {
@@ -367,6 +418,12 @@ XMing.GameStateManager = new function() {
         $(".icon-back").show();
 
         $(".highscore-list").html("");
+
+        if (!userData.leaderboard.mushrooms) {
+            userData.leaderboard.mushrooms = true;
+            self.saveData(userData);
+            self.checkLeaderboardEasterEgg();
+        }
 
         $.get("http://weiseng.redairship.com/leaderboard/api/1/highscore.json?game_id=3", function(data) {
             var numDummyData = 10 - data.length;
@@ -396,6 +453,91 @@ XMing.GameStateManager = new function() {
     };
     this.isGameStateEnd = function() {
         return gameState == GAME_STATE_ENUM.END;
+    };
+
+    // Easter Egg
+    this.checkPlayedEasterEgg = function() {
+        if (!userData.easterEgg.allPlayed) {
+            if (_.every(userData.played)) {
+                userData.easterEgg.allPlayed = true;
+                this.saveData(userData);
+                swal({
+                    title: 'Congratulations!',
+                    text: 'You have found the Blue Egg!',
+                    imageUrl: 'images/blue-egg.png'
+                });
+            }
+        }
+    };
+    this.checkLeaderboardEasterEgg = function() {
+        if (!userData.easterEgg.allLeaderboard) {
+            if (_.every(userData.leaderboard)) {
+                userData.easterEgg.allLeaderboard = true;
+                this.saveData(userData);
+                swal({
+                    title: 'Congratulations!',
+                    text: 'You have found the Ninja Egg!',
+                    imageUrl: 'images/ninja-egg.png'
+                });
+            }
+        }
+    };
+
+    // Local storage
+    this.saveData = function(userData) {
+        if (window.localStorage) {
+            window.localStorage.setItem('data', btoa(encodeURIComponent(JSON.stringify(userData))));
+        }
+    };
+    this.loadData = function() {
+        if (window.localStorage) {
+            var data = window.localStorage.getItem('data');
+            if (data) {
+                var parsedData = JSON.parse(decodeURIComponent(atob(data)));
+                // make sure version is the same
+                if (parsedData.version === VERSION_NUMBER) {
+                    return parsedData;
+                }
+            }
+        }
+        var data = {
+            played: {
+                bunny: false,
+                star: false,
+                specialOne: false,
+                mushrooms: false,
+                word: false,
+                numbers: false,
+                squirrel: false
+            },
+            leaderboard: {
+                bunny: false,
+                star: false,
+                specialOne: false,
+                mushrooms: false,
+                word: false,
+                numbers: false,
+                squirrel: false
+            },
+            squirrel: {
+                level: 0,
+                inHallOfFame: false
+            },
+            easterEgg: {
+                allPlayed: false,
+                allLeaderboard: false,
+                findTheWord: false,
+                followTheNumbers: false,
+                spotTheSpecialOne: false,
+                mushrooms: false,
+                squirrel: false
+            },
+            version: VERSION_NUMBER
+        };
+
+        this.saveData(data);
+
+        return data;
     };
 };
 
