@@ -179,15 +179,15 @@ XMing.GameStateManager = new function() {
         imageObj[SHROOM_TYPE.SINGLE + "-clicked"] = imgSingleClicked.src;
 
         var imgDouble = new Image();
-        imgDouble.src = "images/mushroom-double.png";
+        imgDouble.src = "images/mushroom-double-small.png";
         imageObj[SHROOM_TYPE.DOUBLE] = imgDouble.src;
 
         var imgDoubleClickedOnce = new Image();
-        imgDoubleClickedOnce.src = "images/mushroom-double-clicked-once.png"
+        imgDoubleClickedOnce.src = "images/mushroom-double-small-clicked-once.png"
         imageObj[SHROOM_TYPE.DOUBLE + "-clicked-once"] = imgDoubleClickedOnce.src;
 
         var imgDoubleClickedTwice = new Image();
-        imgDoubleClickedTwice.src = "images/mushroom-double-clicked-twice.png"
+        imgDoubleClickedTwice.src = "images/mushroom-double-small-clicked-twice.png"
         imageObj[SHROOM_TYPE.DOUBLE + "-clicked-twice"] = imgDoubleClickedTwice.src;
 
         var imgPoison = new Image();
@@ -293,9 +293,9 @@ XMing.GameStateManager = new function() {
         html += "<li><div class='content'>E</div></li>";
         html += "<li><div class='content'>R</div></li>";
 
-        html += "<li><div class='content'><img src='images/mushroom-double.png' /></div></li>";
-        html += "<li><div class='content'><img src='images/mushroom-double-clicked-once.png' /></div></li>";
-        html += "<li><div class='content'><img src='images/mushroom-double-clicked-twice.png' /></div></li>";
+        html += "<li><div class='content'><img src='images/mushroom-double-small.png' /></div></li>";
+        html += "<li><div class='content'><img src='images/mushroom-double-small-clicked-once.png' /></div></li>";
+        html += "<li><div class='content'><img src='images/mushroom-double-small-clicked-twice.png' /></div></li>";
         html += "<li><div class='content last'><img src='images/mushroom-small.png' class='small animated' /></div></li>";
 
         $(".game-grid").html(html);
