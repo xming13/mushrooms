@@ -110,6 +110,10 @@ XMing.GameStateManager = new function() {
                 switch (thisType) {
                     case SHROOM_TYPE.SINGLE:
                         img.attr("src", imageObj[thisType + "-clicked"]);
+                        img.addClass("animated fadeOut");
+                        img.one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
+                            img.removeClass("animated fadeOut");
+                        });
                         score++;
                         $scorePopup = $("<div class='score-popup animated bounceIn'>+1</div>");
                         break;
@@ -117,6 +121,10 @@ XMing.GameStateManager = new function() {
                     case SHROOM_TYPE.DOUBLE:
                         if ($this.data("isClicked")) {
                             img.attr("src", imageObj[thisType + "-clicked-twice"]);
+                            img.addClass("animated fadeOut");
+                            img.one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
+                                img.removeClass("animated fadeOut");
+                            });
                             score += 2;
                             $scorePopup = $("<div class='score-popup animated bounceIn'>+2</div>");
                         } else {
