@@ -292,11 +292,6 @@ XMing.GameStateManager = new function() {
         $("#timer").show();
         $(".icon-wrapper").hide();
 
-        if (!userData.played.mushrooms) {
-            userData.played.mushrooms = true;
-            this.saveData(userData);
-        }
-
         this.setupGameNode();
     };
     this.endGame = function() {
@@ -411,6 +406,11 @@ XMing.GameStateManager = new function() {
         $(".small").click(function() {
             $(this).toggleClass("rubberBand");
         });
+
+        if (!userData.played.mushrooms) {
+            userData.played.mushrooms = true;
+            this.saveData(userData);
+        }
     };
     this.showLeaderboard = function() {
         $(".panel-main").hide();
