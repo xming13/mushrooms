@@ -508,7 +508,6 @@ XMing.GameStateManager = new function() {
         var data = {
             played: {
                 bunny: false,
-                star: false,
                 specialOne: false,
                 mushrooms: false,
                 word: false,
@@ -517,7 +516,6 @@ XMing.GameStateManager = new function() {
             },
             leaderboard: {
                 bunny: false,
-                star: false,
                 specialOne: false,
                 mushrooms: false,
                 word: false,
