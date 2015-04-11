@@ -527,11 +527,11 @@ XMing.GameStateManager = new function() {
                 inHallOfFame: false
             },
             easterEgg: {
-                allPlayed: false,
+                allGames: false,
                 allLeaderboard: false,
-                findTheWord: false,
-                followTheNumbers: false,
-                spotTheSpecialOne: false,
+                word: false,
+                numbers: false,
+                specialOne: false,
                 mushrooms: false,
                 squirrel: false
             },
