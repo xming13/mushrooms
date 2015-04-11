@@ -219,6 +219,9 @@ XMing.GameStateManager = new function() {
 
         var imgNinjaEgg = new Image();
         imgNinjaEgg.src = "images/ninja-egg.png";
+
+        var imgLove = new Image();
+        imgLove.src = "images/love.png";
     };
     this.onResize = function() {
         var lis = $(".game-grid").children("li");
@@ -426,8 +429,8 @@ XMing.GameStateManager = new function() {
 
         if (!userData.leaderboard.mushrooms) {
             userData.leaderboard.mushrooms = true;
-            self.saveData(userData);
-            self.checkLeaderboardEasterEgg();
+            this.saveData(userData);
+            this.checkLeaderboardEasterEgg();
         }
 
         $.get("http://weiseng.redairship.com/leaderboard/api/1/highscore.json?game_id=3", function(data) {
