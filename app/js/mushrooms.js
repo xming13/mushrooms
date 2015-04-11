@@ -535,6 +535,7 @@ XMing.GameStateManager = new function() {
                 mushrooms: false,
                 squirrel: false
             },
+            collectAll: false,
             version: VERSION_NUMBER
         };
 
