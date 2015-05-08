@@ -260,6 +260,14 @@ XMing.GameStateManager = new function() {
             confirmButtonColor: '#FD9E3D'
         });
 
+        $(".mfb-component__button--main").click(function() {
+            if ($(this).parent().parent().attr('data-mfb-state') === "open") {
+                $(".overlay").addClass("active");
+            } else {
+                $(".overlay").removeClass("active");
+            }
+        });
+
         $(".btn-play").click(function() {
             $(".panel-main").hide();
             $(".panel-game").show();
