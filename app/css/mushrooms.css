@@ -130,13 +130,14 @@ a {
 
 .icon-circle:after {
   content: attr(data-info);
-  color: #CA5400;
-  font-weight: bold;
   position: absolute;
-  width: 95px;
-  top: -28px;
-  text-align: left;
+  top: -22px;
   left: 0;
+  width: 95px;
+  text-align: left;
+  font-size: 14px;
+  font-weight: bold;
+  color: #CA5400;
   opacity: 0;
   pointer-events: none; }
 
@@ -287,16 +288,16 @@ a {
   margin: 0;
   padding: 0;
   background: #FFEB52;
-  min-height: 400px; }
-
-.highscore-list li {
-  height: 40px;
-  border: 2px solid #D87300;
-  background: #FFEA7E;
-  color: #D54100;
-  font-size: 20px;
-  line-height: 40px;
-  list-style: none; }
+  min-height: 402px; }
+  .highscore-list li {
+    height: 42px;
+    margin-bottom: -2px;
+    border: 2px solid #D87300;
+    background: #FFEA7E;
+    color: #D54100;
+    font-size: 20px;
+    line-height: 42px;
+    list-style: none; }
 
 .loader {
   width: 1em;
@@ -354,8 +355,12 @@ a {
   height: 20px;
   overflow: hidden !important; }
 
-@media only screen and (min-device-width: 320px) and (max-device-width: 540px) {
+/* Mobile Phones Portrait or Landscape */
+@media screen and (max-device-width: 640px) {
   .main-content {
+    margin: 0; }
+
+  .subtitle {
     margin: 0; }
 
   .panel-game,
@@ -386,10 +391,21 @@ a {
   .game-grid li .content.last {
     top: 25%; }
 
+  .heading {
+    font-size: 25px;
+    line-height: 40px; }
+
   .icon-back:after {
     content: ''; }
 
+  .scoreboard {
+    margin-bottom: 10px; }
+
   .highscore-list {
-    min-height: 360px; } }
+    min-height: 302px; }
+    .highscore-list li {
+      height: 32px;
+      line-height: 32px;
+      font-size: 16px; } }
 
 /*# sourceMappingURL=mushrooms.css.map */

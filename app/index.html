@@ -18,14 +18,13 @@
     <link rel="shortcut icon" href="favicon.ico">
 
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" href="//games/css/ming-games.min.css" />
+    <link rel="stylesheet" type="text/css" href="http://xming13.github.io/games/css/ming-games.min.css" />
 
     <!-- build:css css/app.css -->
     <link rel="stylesheet" type="text/css" href="../node_modules/animate.css/animate.min.css"/>
     <link rel="stylesheet" type="text/css" href="../node_modules/sweetalert/dist/sweetalert.css"/>
     <link rel="stylesheet" type="text/css" href="css/mushrooms.css"/>
     <!-- endbuild -->
-    <script src="../node_modules/mfb/src/lib/modernizr.touch.js"></script>
 
     <script>
         (function(i, s, o, g, r, a, m) {
@@ -138,7 +137,8 @@
   </div>
 </div>
 <footer>
-  <div class="fb-like" data-url="http://xming13.github.io/mushrooms" data-action="like" data-show-faces="false" data-share="true"></div>
+  <div class="fb-like" data-url="http://xming13.github.io/mushrooms" data-layout="button_count"
+       data-action="like" data-show-faces="false" data-share="true"></div>
   <div class="overlay"></div>
   <div class="game-list">
     <ul class="mfb-component--br mfb-slidein" data-mfb-toggle="hover" data-mfb-state="closed">
@@ -179,13 +179,14 @@
 </footer>
 
 <!-- build:js js/app.js -->
+<script src="../node_modules/mfb/src/lib/modernizr.touch.js"></script>
 <script src="../node_modules/jquery/dist/jquery.min.js"></script>
 <script src="../node_modules/underscore/underscore-min.js"></script>
 <script src="../node_modules/fastclick/lib/fastclick.js"></script>
 <script src="../node_modules/sweetalert/dist/sweetalert.min.js"></script>
+<script src="../node_modules/mfb/src/mfb.js"></script>
 <script src="js/mushrooms.js"></script>
 <!-- endbuild -->
-<script src="../node_modules/mfb/src/mfb.js"></script>
 </body>
 
 </html>
