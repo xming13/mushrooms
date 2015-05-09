@@ -38,7 +38,7 @@ a {
 
 .panel-container {
   text-align: center;
-  padding: 2%; }
+  padding: 3%; }
 
 .panel-main {
   margin-bottom: 10px; }
@@ -199,11 +199,12 @@ a {
   position: relative; }
 
 .game-grid {
+  padding: 0;
+  margin: 0;
   list-style: none;
   position: relative;
   background: #ffe792;
-  border: 1px solid #b32d2d;
-  padding: 0; }
+  border: 1px solid #b32d2d; }
 
 .game-grid li {
   position: relative;
