@@ -150,7 +150,7 @@ a {
   opacity: 1; }
 
 .icon-repeat {
-  margin-left: 20px; }
+  margin-left: 5px; }
 
 #timer {
   float: left;
@@ -351,6 +351,9 @@ a {
   87.5% {
     box-shadow: 0em -3em 0em 0em #ffffff, 2em -2em 0 -0.5em #ffffff, 3em 0em 0 -0.5em #ffffff, 2em 2em 0 -0.5em #ffffff, 0em 3em 0 -0.5em #ffffff, -2em 2em 0 0em #ffffff, -3em 0em 0 0em #ffffff, -2em -2em 0 0.2em #ffffff; } }
 @media only screen and (min-device-width: 320px) and (max-device-width: 540px) {
+  .main-content {
+    margin: 0; }
+
   .panel-game,
   .panel-leaderboard {
     width: 100%; }
@@ -380,6 +383,9 @@ a {
     top: 25%; }
 
   .icon-back:after {
-    content: ''; } }
+    content: ''; }
+
+  .highscore-list {
+    min-height: 360px; } }
 
 /*# sourceMappingURL=mushrooms.css.map */
