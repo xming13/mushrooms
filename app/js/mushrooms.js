@@ -270,7 +270,7 @@ XMing.GameStateManager = new function() {
 
         $(".btn-play").click(function() {
             $(".panel-main").hide();
-            $(".panel-game").show();
+            $(".panel-game").fadeIn();
             $('html, body').animate({
                 scrollTop: $(".panel-container").offset().top
             }, 'fast');
@@ -283,9 +283,8 @@ XMing.GameStateManager = new function() {
         });
 
         $(".icon-back").click(function() {
-            $(".panel-game").hide();
-            $(".panel-leaderboard").hide();
-            $(".panel-main").show();
+            $(".panel-game, .panel-leaderboard").hide();
+            $(".panel-main").fadeIn();
         });
 
         $(".icon-repeat").click(function() {
@@ -300,7 +299,7 @@ XMing.GameStateManager = new function() {
         $("#score-value").html(score);
         remainingTime = 61;
         $("#timer-value").html(remainingTime);
-        $("#timer").show();
+        $("#timer").fadeIn();
         $(".icon-wrapper").hide();
 
         this.setupGameNode();
@@ -334,7 +333,7 @@ XMing.GameStateManager = new function() {
 
         $(".game-grid").html(html);
         $("#timer").hide();
-        $(".icon-wrapper").show();
+        $(".icon-wrapper").fadeIn();
         $("#score-value").html(score);
         this.onResize();
         $('html, body').scrollTop($(".panel-container").offset().top);
@@ -443,9 +442,7 @@ XMing.GameStateManager = new function() {
     };
     this.showLeaderboard = function() {
         $(".panel-main").hide();
-        $(".panel-leaderboard").show();
-        $(".icon-back").show();
-        $(".loader").show();
+        $(".panel-leaderboard, .icon-back, .loader").fadeIn();
 
         $(".highscore-list").html("");
 
