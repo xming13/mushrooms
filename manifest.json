@@ -1,0 +1,13 @@
+{
+    "short_name": "mushrooms",
+    "name": "Mushrooms",
+    "icons": [
+        {
+            "src": "images/mushroom-og.png",
+            "sizes": "200x200"
+        }
+    ],
+    "start_url": "index.html",
+    "display": "fullscreen",
+    "orientation": "portrait"
+}
